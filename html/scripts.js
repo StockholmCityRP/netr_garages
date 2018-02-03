@@ -185,6 +185,10 @@ $(document).ready(function(){
   $(".btnClose").click(function(){
       $.post('http://netr_garages/close', JSON.stringify({}));
     });
+
+  $(".btnUpdate").click(function(){
+      $.post('http://netr_garages/update', JSON.stringify({}));
+    });
     
   $(".btnHome").click(function(){
       closeAll();

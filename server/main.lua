@@ -108,10 +108,10 @@ AddEventHandler('netr_garages:addCarToParking', function(vehicleProps)
 	if vehicleProps ~= nil then
 
 		MySQL.Async.execute(
-			'INSERT INTO `user_parkings` (`identifier`, `plate`, `vehicle`) VALUES (@identifier, @plate, @vehicle)',
+			'INSERT INTO `user_parkings2` (`identifier`, `plate`, `vehicle`) VALUES (@identifier, @plate, @vehicle)',
 			{
 				['@identifier']   = xPlayer.identifier,
-        ['@plate']        = vehicleProps.plate,
+				['@plate']        = vehicleProps.plate,
 				['@vehicle']      = json.encode(vehicleProps)
 			}, function(rowsChanged)
 				TriggerClientEvent('esx:showNotification', xPlayer.source, _U('veh_stored'))
@@ -130,7 +130,7 @@ AddEventHandler('netr_garages:removeCarFromParking', function(plate)
 	if plate ~= nil then
 
 		MySQL.Async.execute(
-			'DELETE FROM `user_parkings` WHERE `identifier` = @identifier AND `plate` = @plate',
+			'DELETE FROM `user_parkings2` WHERE `identifier` = @identifier AND `plate` = @plate',
 			{
 				['@identifier'] = xPlayer.identifier,
         ['@plate'] = plate
@@ -170,9 +170,9 @@ ESX.RegisterServerCallback('netr_garages:getVehiclesInGarage', function(source, 
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	MySQL.Async.fetchAll(
-		'SELECT * FROM `user_parkings` WHERE `identifier` = @identifier',
+		'SELECT * FROM `user_parkings2` WHERE `identifier` = @identifier',
 		{
-			['@identifier'] = xPlayer.identifier
+			['@identifier'] = xPlayer.identifier -- steam 64 hex
 		},
 		function(result)
 
@@ -190,6 +190,11 @@ ESX.RegisterServerCallback('netr_garages:getVehiclesInGarage', function(source, 
 
 end)
 
+RegisterServerEvent('netr_garages:updateInventory')
+AddEventHandler('netr_garages:updateInventory', function()
+	parkAllOwnedVehicles()
+end)
+
 --[[ runs everytime the server is restarted]]
 --[[ 
 
@@ -201,13 +206,13 @@ function parkAllOwnedVehicles()
   MySQL.ready(function ()
 
     MySQL.Sync.execute(
-      'DELETE FROM `user_parkings`',
+      'DELETE FROM `user_parkings2`',
       {
       }, function(rowsChanged)
       end
     )
 
-    print('deleteing vehs')
+    print('Updated garage!')
 
     local result = MySQL.Sync.fetchAll(
       'SELECT * FROM owned_vehicles',
@@ -221,7 +226,7 @@ function parkAllOwnedVehicles()
       local identifier = result[i].owner
 
       MySQL.Sync.execute(
-        'INSERT INTO `user_parkings` (`identifier`, `plate`, `vehicle`) VALUES (@identifier, @plate, @vehicle)',
+        'INSERT INTO `user_parkings2` (`identifier`, `plate`, `vehicle`) VALUES (@identifier, @plate, @vehicle)',
         {
           ['@identifier'] = identifier,
           ['@plate'] = json.decode(vehicle).plate,
@@ -236,3 +241,10 @@ function parkAllOwnedVehicles()
 end
 
 parkAllOwnedVehicles()
+
+TriggerEvent('es:addGroupCommand', 'garload', 'admin', function (source, args, user)
+  parkAllOwnedVehicles()
+  TriggerClientEvent('chatMessage', source, "SYSTEM", {255, 0, 0}, "Reloaded garage!")
+end, function (source, args, user)
+  TriggerClientEvent('chatMessage', source, 'SYSTEM', { 255, 0, 0 }, 'Insufficienct permissions!')
+end, { help = 'Reload the garage database' })

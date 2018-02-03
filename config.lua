@@ -9,18 +9,13 @@ Config.ParkingMarkerColor   = {r = 102, g = 102, b = 204}
 Config.ZDiff                = 0.5
 Config.MinimumHealthPercent = 0
 
-Config.Locale = 'en'
+Config.Locale = 'sv'
 
 Config.Zones = {}
 
 Config.Garages = {
 
-	MiltonDrive = {
-		Marker 	= { x = -796.542, y = 318.137, z = 84.673},
-		Size  	= { x = 1.5, y = 1.5, z = 1.0 },
-	},
-
-	DelPerro = {
+  DelPerro = {
 		Marker  = { x = -926.21, y = -164.11, z = 41.19},
 		Size  	=  { x = 1.5, y = 1.5, z = 1.0 },
 	},
@@ -54,5 +49,10 @@ Config.Garages = {
 		Marker 	= { x = 10.16, y = 6332.0, z = 30.76},
 		Size  	= { x = 1.5, y = 1.5, z = 1.0 },
 	},
+	
+  CarShop = {
+		Marker = {x = -55.969356536865, y = -1117.12109375,x = 26.434103012085 },
+		Size  	= { x = 1.5, y = 1.5, z = 1.0 },
+  }
 
 }

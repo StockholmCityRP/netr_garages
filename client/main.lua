@@ -115,9 +115,9 @@ Citizen.CreateThread(function ()
 
       local playerPed  = GetPlayerPed(-1)
       if IsPedInAnyVehicle(playerPed) then
-        DisplayHelpText("Press ~INPUT_CONTEXT~ to ~g~STORE~w~ this Car")
+        DisplayHelpText("Tryck ~INPUT_CONTEXT~ för att ~g~lagra~w~ detta fordon")
       else
-        DisplayHelpText("Press ~INPUT_CONTEXT~ to ~b~OPEN~w~ your Garage")
+        DisplayHelpText("Tryck ~INPUT_CONTEXT~ för att ~b~öppna~w~ ditt garage")
       end
 
       if IsControlPressed(0, Keys['E']) and (GetGameTimer() - GUI.Time) > 300 then
@@ -144,7 +144,7 @@ Citizen.CreateThread(function ()
                     TaskLeaveVehicle(playerPed, vehicle, 16)
                     ESX.Game.DeleteVehicle(vehicle)
                   else
-                    DisplayHelpText("You don't own this car")
+                    DisplayHelpText("Du äger inte detta fordon, pajas.")
                   end
 
                 end, vehicleProps.plate)
@@ -236,12 +236,12 @@ end)
 
 Citizen.CreateThread(function()
 
-	WarMenu.CreateMenu('Parking', 'My Vehicles')
+	WarMenu.CreateMenu('Parking', 'Mina fordon')
 	WarMenu.SetSubTitle('Parking', 'Vehicle Parking')
 
-	WarMenu.CreateSubMenu('stored', 'Parking', 'Stored Vehicles')
-  WarMenu.CreateSubMenu('closeMenu', 'stored', 'Are you sure?')
-  WarMenu.CreateSubMenu('park', 'Parking', 'Do you want to park this vehicle?')
+	WarMenu.CreateSubMenu('stored', 'Parking', 'Lagrade fordon')
+  WarMenu.CreateSubMenu('closeMenu', 'stored', 'Är du säker?')
+  WarMenu.CreateSubMenu('park', 'Parking', 'Vill du parkera detta fordon?')
 
 	WarMenu.SetTitleBackgroundColor('Parking', 120,120,120,255)
 	WarMenu.SetTitleBackgroundColor('stored', 120,120,120,255)
