@@ -101,10 +101,10 @@ AddEventHandler('netr_garages:updateOwnedVehicle', function(vehicleProps)
 
 
 RegisterServerEvent('netr_garages:addCarToParking')
-AddEventHandler('netr_garages:addCarToParking', function(vehicleProps, target)
+AddEventHandler('netr_garages:addCarToParking', function(vehicleProps, source)
 
-	local xPlayer = ESX.GetPlayerFromId(target)
-
+	local xPlayer = ESX.GetPlayerFromId(source)
+	
 	if vehicleProps ~= nil then
 
 		MySQL.Async.execute(
