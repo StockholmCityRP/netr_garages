@@ -101,9 +101,9 @@ AddEventHandler('netr_garages:updateOwnedVehicle', function(vehicleProps)
 
 
 RegisterServerEvent('netr_garages:addCarToParking')
-AddEventHandler('netr_garages:addCarToParking', function(vehicleProps)
+AddEventHandler('netr_garages:addCarToParking', function(vehicleProps, target)
 
-	local xPlayer = ESX.GetPlayerFromId(source)
+	local xPlayer = ESX.GetPlayerFromId(target)
 
 	if vehicleProps ~= nil then
 

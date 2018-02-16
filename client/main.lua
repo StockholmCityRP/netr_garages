@@ -18,7 +18,6 @@ local PlayerData              = {}
 local CurrentAction           = nil
 local CurrentActionMsg        = ''
 local CurrentActionData       = {}
-local IsInShopMenu            = false
 local Categories              = {}
 local Vehicles                = {}
 local LastVehicles            = {}
@@ -140,7 +139,7 @@ Citizen.CreateThread(function ()
                   if owned ~= nil then
 					if (GetPedInVehicleSeat(vehicle, -1) == playerPed) then
 						TriggerServerEvent("netr_garages:updateOwnedVehicle", vehicleProps)
-						TriggerServerEvent("netr_garages:addCarToParking", vehicleProps)
+						TriggerServerEvent("netr_garages:addCarToParking", vehicleProps, -1)
 						TaskLeaveVehicle(playerPed, vehicle, 16)
 						ESX.Game.DeleteVehicle(vehicle)
 					else
@@ -151,8 +150,6 @@ Citizen.CreateThread(function ()
                   end
 
                 end, vehicleProps.plate)
-
-                --WarMenu.OpenMenu('park')
 
               else 
 
@@ -179,8 +176,6 @@ Citizen.CreateThread(function ()
 
             end
           end
-
-          --WarMenu.OpenMenu('Parking')
 
         end
 
@@ -237,28 +232,6 @@ RegisterNUICallback('pullCar', function(data, cb)
   cb('ok')
 end)
 
-Citizen.CreateThread(function()
-
-	WarMenu.CreateMenu('Parking', 'Mina fordon')
-	WarMenu.SetSubTitle('Parking', 'Vehicle Parking')
-
-	WarMenu.CreateSubMenu('stored', 'Parking', 'Lagrade fordon')
-  WarMenu.CreateSubMenu('closeMenu', 'stored', 'Är du säker?')
-  WarMenu.CreateSubMenu('park', 'Parking', 'Vill du parkera detta fordon?')
-
-	WarMenu.SetTitleBackgroundColor('Parking', 120,120,120,255)
-	WarMenu.SetTitleBackgroundColor('stored', 120,120,120,255)
-	WarMenu.SetTitleBackgroundColor('closeMenu', 120,120,120,255)
-	
-	WarMenu.SetMenuBackgroundColor('Parking', 0,0,0,220)
-	WarMenu.SetMenuBackgroundColor('stored', 0,0,0,220)
-	WarMenu.SetMenuBackgroundColor('closeMenu', 0,0,0,220)
-	
-  WarMenu.CreateSubMenu('Banger', 'stored', 'Fuckin Banger')
-
-end)
-
-
 function DisplayHelpText(str)
 	BeginTextCommandDisplayHelp("STRING")
 	AddTextComponentScaleform(str)
@@ -273,13 +246,6 @@ AddEventHandler('netr_garages:hasEnteredMarker', function (zone)
 end)
 
 AddEventHandler('netr_garages:hasExitedMarker', function (zone)
-  if IsInShopMenu then
-    DisplayHelpText("Closed")
-    WarMenu.CloseMenu()
-    IsInShopMenu = false
-    CurrentGarage = nil
-  end
-
   CurrentAction = nil
 end)
 
