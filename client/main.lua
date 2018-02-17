@@ -139,7 +139,7 @@ Citizen.CreateThread(function ()
                   if owned ~= nil then
 					if (GetPedInVehicleSeat(vehicle, -1) == playerPed) then
 						TriggerServerEvent("netr_garages:updateOwnedVehicle", vehicleProps)
-						TriggerServerEvent("netr_garages:addCarToParking", vehicleProps, -1)
+						TriggerServerEvent("netr_garages:addCarToParking2", vehicleProps, -1)
 						TaskLeaveVehicle(playerPed, vehicle, 16)
 						ESX.Game.DeleteVehicle(vehicle)
 					else

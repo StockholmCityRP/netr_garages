@@ -102,24 +102,12 @@ AddEventHandler('netr_garages:updateOwnedVehicle', function(vehicleProps)
 
 RegisterServerEvent('netr_garages:addCarToParking')
 AddEventHandler('netr_garages:addCarToParking', function(vehicleProps, source)
+	addCarToPark(vehicleProps, source)
+end)
 
-	local xPlayer = ESX.GetPlayerFromId(source)
-	
-	if vehicleProps ~= nil then
-
-		MySQL.Async.execute(
-			'INSERT INTO `user_parkings2` (`identifier`, `plate`, `vehicle`) VALUES (@identifier, @plate, @vehicle)',
-			{
-				['@identifier']   = xPlayer.identifier,
-				['@plate']        = vehicleProps.plate,
-				['@vehicle']      = json.encode(vehicleProps)
-			}, function(rowsChanged)
-				TriggerClientEvent('esx:showNotification', xPlayer.source, _U('veh_stored'))
-			end
-		)
-
-	end
-
+RegisterServerEvent('netr_garages:addCarToParking2')
+AddEventHandler('netr_garages:addCarToParking2', function(vehicleProps)
+	addCarToPark(vehicleProps, source)
 end)
 
 RegisterServerEvent('netr_garages:removeCarFromParking')
@@ -142,6 +130,25 @@ AddEventHandler('netr_garages:removeCarFromParking', function(plate)
 	end
 
 end)
+
+function addCarToPark(vehicleProps, source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	
+	if vehicleProps ~= nil then
+
+		MySQL.Async.execute(
+			'INSERT INTO `user_parkings2` (`identifier`, `plate`, `vehicle`) VALUES (@identifier, @plate, @vehicle)',
+			{
+				['@identifier']   = xPlayer.identifier,
+				['@plate']        = vehicleProps.plate,
+				['@vehicle']      = json.encode(vehicleProps)
+			}, function(rowsChanged)
+				TriggerClientEvent('esx:showNotification', xPlayer.source, _U('veh_stored'))
+			end
+		)
+
+	end
+end
 
 
 RegisterServerEvent('netr_garages:getCustomPlate')
