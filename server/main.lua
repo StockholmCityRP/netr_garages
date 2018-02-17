@@ -121,7 +121,7 @@ AddEventHandler('netr_garages:removeCarFromParking', function(plate)
 			'DELETE FROM `user_parkings2` WHERE `identifier` = @identifier AND `plate` = @plate',
 			{
 				['@identifier'] = xPlayer.identifier,
-        ['@plate'] = plate
+				['@plate'] = plate
 			}, function(rowsChanged)
 				TriggerClientEvent('esx:showNotification', xPlayer.source, _U('veh_released'))
 			end
