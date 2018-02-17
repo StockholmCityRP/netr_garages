@@ -99,6 +99,10 @@ $(document).ready(function(){
       if(!$("#btnCar6").hasClass('btnCar')) { $("#btnCar6").addClass('btnCar'); }
       if(!$("#btnCar7").hasClass('btnCar')) { $("#btnCar7").addClass('btnCar'); }
       if(!$("#btnCar8").hasClass('btnCar')) { $("#btnCar8").addClass('btnCar'); }
+	  if(!$("#btnCar9").hasClass('btnCar')) { $("#btnCar9").addClass('btnCar'); }
+	  if(!$("#btnCar10").hasClass('btnCar')) { $("#btnCar10").addClass('btnCar'); }
+	  if(!$("#btnCar11").hasClass('btnCar')) { $("#btnCar11").addClass('btnCar'); }
+	  if(!$("#btnCar12").hasClass('btnCar')) { $("#btnCar12").addClass('btnCar'); }
     }
 
     if(item.addcar == true) {
@@ -179,7 +183,30 @@ $(document).ready(function(){
     var model = $(this).attr('model');
     $.post('http://netr_garages/pullCar',  JSON.stringify({ model: $(this).attr('model') }));
   });
-
+  
+  // Handle Button Presses
+  $("#btnCar9"). click(function(){
+    var model = $(this).attr('model');
+    $.post('http://netr_garages/pullCar',  JSON.stringify({ model: $(this).attr('model') }));
+  });
+  
+  // Handle Button Presses
+  $("#btnCar10"). click(function(){
+    var model = $(this).attr('model');
+    $.post('http://netr_garages/pullCar',  JSON.stringify({ model: $(this).attr('model') }));
+  });
+  
+  // Handle Button Presses
+  $("#btnCar11"). click(function(){
+    var model = $(this).attr('model');
+    $.post('http://netr_garages/pullCar',  JSON.stringify({ model: $(this).attr('model') }));
+  });
+  
+  // Handle Button Presses
+  $("#btnCar12"). click(function(){
+    var model = $(this).attr('model');
+    $.post('http://netr_garages/pullCar',  JSON.stringify({ model: $(this).attr('model') }));
+  });
 
 
   $(".btnClose").click(function(){
