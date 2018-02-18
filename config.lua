@@ -12,6 +12,7 @@ Config.Size                 = { x = 1.5, y = 1.5, z = 1.0 }
 
 Config.Locale = 'sv'
 
+-- minimum two decimals!
 Config.Zones = {
 	DelPerro 		 = {x=-926.21,  y=-164.11,  z=41.19},
 	Prosperity		 = {x=-1173.18, y=-739.67,  z=19.24},
@@ -20,7 +21,7 @@ Config.Zones = {
 	VinewoodBlvd 	 = {x=612.92,   y=95.05,    z=92.00},
 	SandyShores 	 = {x=1467.12,  y=3740.12,  z=33.10},
 	PaletoBay		 = {x=10.16,    y=6332.0,   z=30.76},
-	FleecaBank		 = {x=135,      y=-1049,    z=29},
-	PillboxHill		 = {x=-156,     y=-609,     z=32},
-	LaMesa			 = {x=702,      y=-1103,    z=22}
+	FleecaBank		 = {x=135.00,   y=-1049.00, z=29.00},
+	PillboxHill		 = {x=-156.00,  y=-609.00,  z=32.00},
+	LaMesa			 = {x=702.00,   y=-1103.00, z=22.00}
 }
