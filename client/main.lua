@@ -37,9 +37,9 @@ end)
 -- Create Blips
 Citizen.CreateThread(function()
 		
-	for k,v in pairs(Config.Garages) do
+	for k,v in pairs(Config.Zones) do
 
-    local blip = AddBlipForCoord(v.Marker.x, v.Marker.y, v.Marker.z)
+    local blip = AddBlipForCoord(v.x, v.y, v.z)
 
     SetBlipSprite (blip, 357)
     SetBlipDisplay(blip, 4)
@@ -64,12 +64,10 @@ Citizen.CreateThread(function()
 		local playerPed = GetPlayerPed(-1)
 		local coords    = GetEntityCoords(playerPed)
 
-		for k,v in pairs(Config.Garages) do
-
-      if(GetDistanceBetweenCoords(coords, v.Marker.x, v.Marker.y, v.Marker.z, true) < Config.DrawDistance) then
-        DrawMarker(Config.MarkerType, v.Marker.x, v.Marker.y, v.Marker.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
-      end	
-
+		for k,v in pairs(Config.Zones) do
+			if(GetDistanceBetweenCoords(coords, v.x, v.y, v.z, true) < Config.DrawDistance) then
+				DrawMarker(Config.MarkerType, v.x, v.y, v.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
+			end
 		end
 
 	end
@@ -84,8 +82,8 @@ Citizen.CreateThread(function ()
     local isInMarker  = false
     local currentZone = nil
 
-    for k,v in pairs(Config.Garages) do
-      if(GetDistanceBetweenCoords(coords, v.Marker.x, v.Marker.y, v.Marker.z, true) < v.Size.x) then
+    for k,v in pairs(Config.Zones) do
+      if(GetDistanceBetweenCoords(coords, v.x, v.y, v.z, true) < Config.Size.x) then
         isInMarker  = true
         currentZone = k
         CurrentGarage = v
@@ -124,8 +122,8 @@ Citizen.CreateThread(function ()
 
           local coords      = GetEntityCoords(GetPlayerPed(-1))
 
-          for k,v in pairs(Config.Garages) do
-            if(GetDistanceBetweenCoords(coords, v.Marker.x, v.Marker.y, v.Marker.z, true) < v.Size.x) then
+          for k,v in pairs(Config.Zones) do
+            if(GetDistanceBetweenCoords(coords, v.x, v.y, v.z, true) < Config.Size.x) then
 
               if IsPedInAnyVehicle(playerPed) then
 
@@ -214,9 +212,9 @@ RegisterNUICallback('pullCar', function(data, cb)
   ESX.TriggerServerCallback('netr_garages:checkIfVehicleIsOwned', function (owned)
 
 			local spawnCoords  = {
-				x = CurrentGarage.Marker.x,
-				y = CurrentGarage.Marker.y,
-				z = CurrentGarage.Marker.z,
+				x = CurrentGarage.x,
+				y = CurrentGarage.y,
+				z = CurrentGarage.z,
 			}
 
       TriggerServerEvent("netr_garages:removeCarFromParking", owned.plate)
