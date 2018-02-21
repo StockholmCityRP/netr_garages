@@ -106,15 +106,15 @@ end)
 -- Key controls
 Citizen.CreateThread(function ()
   while true do
-    Citizen.Wait(0)
+    Citizen.Wait(10)
 
     if CurrentAction ~= nil then
 
       local playerPed  = GetPlayerPed(-1)
       if IsPedInAnyVehicle(playerPed) then
-        DisplayHelpText("Tryck ~INPUT_CONTEXT~ för att ~g~lagra~w~ detta fordon")
+        DisplayHelpText(_U('store_vehicle'))
       else
-        DisplayHelpText("Tryck ~INPUT_CONTEXT~ för att ~b~öppna~w~ ditt garage")
+        DisplayHelpText(_U('open_garage'))
       end
 
       if IsControlPressed(0, Keys['E']) and (GetGameTimer() - GUI.Time) > 300 then
@@ -141,10 +141,10 @@ Citizen.CreateThread(function ()
 						TaskLeaveVehicle(playerPed, vehicle, 16)
 						ESX.Game.DeleteVehicle(vehicle)
 					else
-						DisplayHelpText("Du måste sitta i förarsätet.")
+						DisplayHelpText(_U('driver_seat'))
 					end
                   else
-                    DisplayHelpText("Du äger inte detta fordon, pajas.")
+                    DisplayHelpText(_U('not_owner'))
                   end
 
                 end, vehicleProps.plate)
@@ -246,5 +246,3 @@ end)
 AddEventHandler('netr_garages:hasExitedMarker', function (zone)
   CurrentAction = nil
 end)
-
-
