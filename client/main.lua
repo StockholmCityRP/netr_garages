@@ -162,7 +162,7 @@ Citizen.CreateThread(function ()
                       addcar = true,
                       number = i,
                       model = vehicles[i].plate,
-                      name = GetDisplayNameFromVehicleModel(vehicles[i].model)
+                      name = GetLabelText(GetDisplayNameFromVehicleModel(vehicles[i].model))
                     })
                   end
 
