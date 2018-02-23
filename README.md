@@ -13,7 +13,7 @@ Modified version by the SCRP team
 3. Walk into the marker to pull out your stored cars
 
 ## Adding vehicle to garage
-- Use the server side trigger `netr_garages:addCarToParking': vehicleProps, target`
+- Use the server side trigger `netr_garages:addCarToParking: vehicleProps, target`
 
 ---
 
