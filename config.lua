@@ -22,6 +22,7 @@ Config.Zones = {
 	SandyShores 	 = {x=1467.12,  y=3740.12,  z=32.50},
 	PaletoBay		 = {x=10.16,    y=6332.0,   z=30.00},
 	FleecaBank		 = {x=135.00,   y=-1049.00, z=28.00},
+	FleecaHighWay	 = {x=-2973.00, y=354.90,   z=14.77},
 	PillboxHill		 = {x=-156.00,  y=-609.00,  z=31.00},
 	LaMesa			 = {x=702.00,   y=-1103.00, z=21.40},
 	Jail 			 = {x=1873.00,  y=2639.00,  z=45.00},
