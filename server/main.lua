@@ -219,7 +219,7 @@ function parkAllOwnedVehicles()
       end
     )
 
-    print('Updated garage!')
+    print('netr_garages: updated garage hive!')
 
     local result = MySQL.Sync.fetchAll(
       'SELECT * FROM owned_vehicles',
