@@ -107,7 +107,8 @@ end)
 
 RegisterServerEvent('netr_garages:addCarToParking2')
 AddEventHandler('netr_garages:addCarToParking2', function(vehicleProps)
-	addCarToPark(vehicleProps, source)
+	local _source = source
+	addCarToPark(vehicleProps, _source)
 end)
 
 RegisterServerEvent('netr_garages:removeCarFromParking')

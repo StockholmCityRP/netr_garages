@@ -104,7 +104,7 @@ Citizen.CreateThread(function ()
 end)
 
 -- Key controls
-Citizen.CreateThread(function ()
+Citizen.CreateThread(function()
   while true do
     Citizen.Wait(10)
 
@@ -157,15 +157,19 @@ Citizen.CreateThread(function ()
 
                 ESX.TriggerServerCallback('netr_garages:getVehiclesInGarage', function (vehicles)
 
+				  local vehicleName
                   for i=1, #vehicles, 1 do
-                    SendNUIMessage({
-                      addcar = true,
-                      number = i,
-                      model = vehicles[i].plate,
-                      name = GetLabelText(GetDisplayNameFromVehicleModel(vehicles[i].model))
-                    })
-                  end
-
+				    vehicleName = GetLabelText(GetDisplayNameFromVehicleModel(vehicles[i].model))
+					
+					if vehicleName ~= "NULL" and vehicleName ~= nil then
+						SendNUIMessage({
+							addcar = true,
+							number = i,
+							model = vehicles[i].plate,
+							name = vehicleName
+						})
+					end
+				  end
                 end)
 
                 openGui()
