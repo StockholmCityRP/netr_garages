@@ -10,7 +10,8 @@ end)
 
 
 ESX.RegisterServerCallback('netr_garages:getOwnedVehicles', function (source, cb)
-  local xPlayer = ESX.GetPlayerFromId(source)
+  local _source = source
+  local xPlayer = ESX.GetPlayerFromId(_source)
 
   MySQL.Async.fetchAll(
     'SELECT * FROM owned_vehicles WHERE owner = @owner',
@@ -30,74 +31,39 @@ end)
 
 ESX.RegisterServerCallback('netr_garages:checkIfVehicleIsOwned', function (source, cb, plate)
 
-  local xPlayer = ESX.GetPlayerFromId(source)
-  local found = nil
-  local vehicleData = nil
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
 
   MySQL.Async.fetchAll(
-    'SELECT * FROM owned_vehicles WHERE owner = @owner',
-    { ['@owner'] = xPlayer.identifier },
-    function (result)
-      local vehicles = {}
-
-      for i=1, #result, 1 do
-        vehicleData = json.decode(result[i].vehicle)
-        if vehicleData.plate == plate then
-          found = true
-          cb(vehicleData)
-          break
-        end
-      end
-
-      if not found then
-        cb(nil)
-      end
-    end
-  )
+    'SELECT * FROM owned_vehicles WHERE (owner = @owner AND plate = @plate)',
+    {
+		['@owner'] = xPlayer.identifier,
+		['@plate'] = plate
+	},
+	function (result)
+		if result[1] ~= nil then
+			cb(json.decode(result[1].vehicle))
+		else
+			cb(nil)
+		end
+	end
+	)
 end)
 
 RegisterServerEvent('netr_garages:updateOwnedVehicle')
-AddEventHandler('netr_garages:updateOwnedVehicle', function(vehicleProps)
- 
- 	local _source = source
- 	local xPlayer = ESX.GetPlayerFromId(source)
- 
- 	MySQL.Async.fetchAll(
- 		'SELECT * FROM owned_vehicles WHERE owner = @owner',
- 		{
- 			['@owner'] = xPlayer.identifier
- 		},
- 		function(result)
- 
- 			local foundVehicleId = nil
- 
- 			for i=1, #result, 1 do
- 				
- 				local vehicle = json.decode(result[i].vehicle)
- 				
- 				if vehicle.plate == vehicleProps.plate then
- 					foundVehicleId = result[i].id
- 					break
- 				end
- 
- 			end
- 
- 			if foundVehicleId ~= nil then
+AddEventHandler('netr_garages:updateOwnedVehicle', function(vehicleProps) 
 
- 				MySQL.Async.execute(
- 					'UPDATE owned_vehicles SET vehicle = @vehicle WHERE id = @id',
- 					{
-						['@vehicle'] = json.encode(vehicleProps),
-						['@id']      = foundVehicleId
- 					}
- 				)
- 
- 			end
- 
- 		end
- 	)
- 
- end)
+	MySQL.Async.fetchAll(
+		'UPDATE owned_vehicles SET vehicle = @vehicle WHERE plate = @plate',
+		{
+			['@plate']   = vehicleProps.plate,
+			['@vehicle'] = json.encode(vehicleProps)
+		},
+		function(result)
+		
+		end
+	)
+end)
 
 
 RegisterServerEvent('netr_garages:addCarToParking')
@@ -151,28 +117,6 @@ function addCarToPark(vehicleProps, source)
 	end
 end
 
-
-RegisterServerEvent('netr_garages:getCustomPlate')
-AddEventHandler('netr_garages:getCustomPlate', function(plate)
-
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	if plate ~= nil then
-
-    MySQL.Async.fetchAll(
-      'SELECT `plate_name` FROM custom_plate WHERE original_plate = @plate',
-      {
-        ['@plate'] = plate
-      },
-      function(result)
-        return result[1].plate_name
-    end)
-
-	end
-
-end)
-
-
 ESX.RegisterServerCallback('netr_garages:getVehiclesInGarage', function(source, cb)
 
 	local xPlayer = ESX.GetPlayerFromId(source)
@@ -187,8 +131,8 @@ ESX.RegisterServerCallback('netr_garages:getVehiclesInGarage', function(source, 
 			local vehicles = {}
 
 			for i=1, #result, 1 do
-        local vehicleData = json.decode(result[i].vehicle)
-        table.insert(vehicles, vehicleData)
+				local vehicleData = json.decode(result[i].vehicle)
+				table.insert(vehicles, vehicleData)
 			end
 
 			cb(vehicles)
@@ -226,19 +170,18 @@ function parkAllOwnedVehicles()
       'SELECT * FROM owned_vehicles',
       {})
 
-    local foundVehicleId = nil
-
     for i=1, #result, 1 do
     
       local vehicle = result[i].vehicle
       local identifier = result[i].owner
+	  local plate = result[i].plate
 
       MySQL.Sync.execute(
         'INSERT INTO `user_parkings2` (`identifier`, `plate`, `vehicle`) VALUES (@identifier, @plate, @vehicle)',
         {
           ['@identifier'] = identifier,
-          ['@plate'] = json.decode(vehicle).plate,
-          ['@vehicle']     = vehicle
+          ['@plate']      = plate,
+          ['@vehicle']    = vehicle
         })
 
     end
