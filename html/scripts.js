@@ -57,39 +57,6 @@ $(document).ready(function(){
   // Listen for NUI Events
   window.addEventListener('message', function(event){
     var item = event.data;
-    // Update HUD Balance
-    if(item.updateBalance == true) {
-      $('.currentBalance').html('$'+addCommas(event.data.balance));
-      $('.username').html(event.data.player);
-    }
-    // Trigger Add Balance Popup
-    if(item.addBalance == true) {
-      var element = $('<p id="add-balance"><span class="pre">+</span><span class="green"> $ </span>' +addGaps(event.data.amount)+'</p>');
-      $(".transaction").append(element);
-
-      setTimeout(function(){
-        $(element).fadeOut(600, function() { $(this).remove(); })
-      }, 1000)
-    }
-    //Trigger Remove Balance Popup
-    if(item.removeBalance == true) {
-      var element = $('<p id="add-balance"><span class="pre">-</span><span class="red"> $ </span>' +addGaps(event.data.amount)+'</p>');
-      $(".transaction").append(element);
-      setTimeout(function(){
-        $(element).fadeOut(600, function() { $(this).remove(); })
-      }, 1000)
-    }
-    // Open & Close main bank window
-    if(item.openBank == true) {
-      openContainer();
-      openMain();
-    }
-    if(item.openBank == false) {
-      closeContainer();
-      closeMain();
-    }
-
-
     if(item.clearme == true) {
       if(!$("#btnCar1").hasClass('btnCar')) { $("#btnCar1").addClass('btnCar'); }
       if(!$("#btnCar2").hasClass('btnCar')) { $("#btnCar2").addClass('btnCar'); }
@@ -109,25 +76,6 @@ $(document).ready(function(){
       $("#btnCar" + item.number).removeClass('btnCar');
       $("#btnCar" + item.number).html(item.name);
       $("#btnCar" + item.number).attr('model', item.model);
-    }
-
-
-    // Open sub-windows / partials
-    if(item.openSection == "balance") {
-      closeAll();
-      openBalance();
-    }
-    if(item.openSection == "withdraw") {
-      closeAll();
-      openWithdraw();
-    }
-    if(item.openSection == "deposit") {
-      closeAll();
-      openDeposit();
-    }
-    if(item.openSection == "transfer") {
-      closeAll();
-      openTransfer();
     }
   });
   // On 'Esc' call close method
@@ -221,47 +169,6 @@ $(document).ready(function(){
       closeAll();
       openMain();
     });
-    
-  // Handle Form Submits
-  $("#withdraw-form").submit(function(e) {
-      e.preventDefault();
-      $.post('http://banking/withdrawSubmit', JSON.stringify({
-          amount: $("#withdraw-form #amount").val()
-      }));
-      $("#withdraw-form #amount").prop('disabled', true)
-      setTimeout(function(){
-        $("#withdraw-form #amount").prop('disabled', false)
-        $("#withdraw-form #submit").css('display', 'block')
-      }, 2000)
 
-      $("#withdraw-form #amount").val('')
-  });
-  $("#deposit-form").submit(function(e) {
-      e.preventDefault();
-      $.post('http://banking/depositSubmit', JSON.stringify({
-          amount: $("#deposit-form #amount").val()
-      }));
-      $("#deposit-form #amount").prop('disabled', true)
-      setTimeout(function(){
-        $("#deposit-form #amount").prop('disabled', false)
-        $("#deposit-form #submit").css('display', 'block')
-      }, 2000)
-      $("#deposit-form #amount").val('')
-  });
-  $("#transfer-form").submit(function(e) {
-      e.preventDefault();
-      $.post('http://banking/transferSubmit', JSON.stringify({
-          amount: $("#transfer-form #amount").val(),
-          toPlayer: $("#transfer-form #toPlayer").val()
-      }));
-      $("#transfer-form #amount").prop('disabled', true)
-      $("#transfer-form #toPlayer").prop('disabled', true)
-      setTimeout(function(){
-        $("#transfer-form #amount").prop('disabled', false)
-        $("#transfer-form #submit").css('display', 'block')
-        $("#transfer-form #toPlayer").prop('disabled', false)
-      }, 2000)
-      $("#transfer-form #amount").val('')
-      $("#transfer-form #toPlayer").val('')
-  });
+
 });
