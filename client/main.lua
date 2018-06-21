@@ -151,7 +151,7 @@ Citizen.CreateThread(function()
 											})
 										end
 									end
-								end
+								end)
 								openGui()
 							end
 						end
