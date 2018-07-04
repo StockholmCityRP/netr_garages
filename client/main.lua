@@ -10,7 +10,6 @@ local Keys = {
 	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
-local GUI						= {}
 local HasAlreadyEnteredMarker	= false
 local LastZone					= nil
 local CurrentGarage				= nil
@@ -19,7 +18,6 @@ local CurrentAction				= nil
 local CurrentActionMsg			= ''
 local CurrentActionData			= {}
 ESX								= nil
-GUI.Time						= 0
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -106,7 +104,7 @@ Citizen.CreateThread(function()
 				DisplayHelpText(_U('open_garage'))
 			end
 
-			if IsControlPressed(0, Keys['E']) and (GetGameTimer() - GUI.Time) > 300 then
+			if IsControlJustReleased(0, Keys['E']) then
 				if CurrentAction == 'parking_menu' then
 
 					local coords = GetEntityCoords(GetPlayerPed(-1))
@@ -141,7 +139,7 @@ Citizen.CreateThread(function()
 									local vehicleName
 									for i=1, #vehicles, 1 do
 										vehicleName = GetLabelText(GetDisplayNameFromVehicleModel(vehicles[i].model))
-					
+
 										if vehicleName ~= "NULL" and vehicleName ~= nil then
 											SendNUIMessage({
 												addcar = true,
@@ -159,7 +157,6 @@ Citizen.CreateThread(function()
 				end
 
 				CurrentAction = nil
-				GUI.Time      = GetGameTimer()
 			end
 		end
 	end
@@ -168,15 +165,13 @@ end)
 -- Open Gui and Focus NUI
 function openGui()
 	SetNuiFocus(true, true)
-	SendNUIMessage({openBank = true})
+	SendNUIMessage({showUI = true})
 end
 
 -- Close Gui and disable NUI
 function closeGui()
 	SetNuiFocus(false)
-	SendNUIMessage({openBank = false})
-	bankOpen = false
-	atmOpen = false
+	SendNUIMessage({showUI = false})
 end
 
 -- NUI Callback Methods
