@@ -1,13 +1,8 @@
 Config                      = {}
 Config.DrawDistance         = 100.0
-Config.MenuDistance         = 2.0
 Config.MarkerType           = 1
 Config.MarkerSize           = {x = 2.0, y = 2.0, z = 1.0}
 Config.MarkerColor          = {r = 255, g = 255, b = 255}
-Config.ParkingMarkerSize    = {x = 3.0, y = 3.0, z = 2.0}
-Config.ParkingMarkerColor   = {r = 102, g = 102, b = 204}
-Config.ZDiff                = 0.5
-Config.MinimumHealthPercent = 0
 Config.Size                 = { x = 1.5, y = 1.5, z = 1.0 }
 
 Config.Locale = 'sv'
