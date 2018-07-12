@@ -11,4 +11,5 @@ Fork of the orginial script with endless improvements
 3. Walk into the marker to pull out your stored cars
 
 ## Adding vehicle to garage
+- Use the server side trigger `TriggerServerEvent('netr_garages:addCarToParking2', vehicleProps)` (source)
 - Use the server side trigger `TriggerServerEvent('netr_garages:addCarToParking', vehicleProps, target)`
