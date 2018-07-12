@@ -2,7 +2,8 @@
 Fork of the orginial script with endless improvements
 
 ## Requirements
-- esx_vehicleshop script or some way to add players' cars to `owned_vehicles`
+- ESX
+- altered `owned_vehicles` db, add `plate` and set it as the primary key
 
 ## Information
 1. Customizable configurations for garage locations (Config.Garages in config.lua)
